@@ -32,17 +32,6 @@ class Warrior extends Player {
       this.life = 0;
     }
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Sword) {
-       console.log(`${this.name} ломает свой меч и будет сражаться ножом`);
-       this.weapon = new Knife();
-     } else {
-       super.checkWeapon();
-     }
-   }
 }
 
 export default Warrior;

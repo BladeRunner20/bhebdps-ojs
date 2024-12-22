@@ -13,26 +13,16 @@ class Dwarf extends Warrior {
     this.weapon = new Axe();
     this.startLife = this.life;
     this.startMagic = this.magic;
+    this.hitsTaken = 0;
   }
   
   takeDamage(damage) {
-    if (this.getLuck() > 0.5 && Math.floor(Math.random() * 6) == 0) {
+    this.hitsTaken += 1;
+    if ((this.hitsTaken % 6 === 0) && this.getLuck() > 0.5) {
       damage /= 2;
     }
     super.takeDamage(damage);
   }
-  
-  checkWeapon() { 
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Axe) { 
-       console.log(`${this.name} теряет секиру и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
-
 
 export default Dwarf;

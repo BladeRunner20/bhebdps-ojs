@@ -26,18 +26,7 @@ class Mage extends Player {
     }
     super.takeDamage(damage);
   }
-  
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Staff) { 
-       console.log(`${this.name} ломает свой посох и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
+
 
 export default Mage;

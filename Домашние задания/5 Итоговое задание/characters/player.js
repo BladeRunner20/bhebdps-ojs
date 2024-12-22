@@ -76,13 +76,16 @@ class Player {
   }
   
   checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-    if (this.weapon instanceof Arm) {
+    if (!this.weapon.isBroken()) {
       return; 
     } else if (this.weapon instanceof Knife) {
       console.log(`${this.name} сломал нож. Будет сражаться руками`);
       this.weapon = new Arm();
+      return;
+    }
+    else {
+      console.log(`${this.name} сломал основное оружие - ${this.weapon.name}. Теперь он достает нож`);
+      this.weapon = new Knife();
       return;
     }
   }
@@ -173,6 +176,6 @@ class Player {
       console.log(`${this.name} не нашёл врагов для атаки`);
     }
   }  
-}  
+}    
 
 export default Player;

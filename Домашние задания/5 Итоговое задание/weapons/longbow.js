@@ -3,7 +3,7 @@ import Bow from './bow.js';
 class LongBow extends Bow {
   constructor() {
     super();
-    this.name = 'длинный лук';
+    this.name = 'Длинный лук';
     this.attack = 15;
     this.range = 4;
   }

@@ -1,10 +1,10 @@
 class Weapon {
-  constructor(name, attack, durability, range) {
-    this.name = name;
-    this.attack = attack;
-    this.durability = durability;
-    this.range = range;
-	this.startDurab = this.durability;
+  constructor() {
+    this.name = 'Оружие';
+    this.attack = 1;
+    this.durability = 1;
+    this.range = 1;
+	  this.startDurab = this.durability;
   }
   
   takeDamage(damage) {

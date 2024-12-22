@@ -14,17 +14,7 @@ class Crossbowman extends Archer {
     this.baseLife = this.life;
     this.baseMagic = this.magic;
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof LongBow) { 
-       console.log(`${this.name} теряет арбалет и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
+
 
 export default Crossbowman;

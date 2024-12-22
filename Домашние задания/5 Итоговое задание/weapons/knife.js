@@ -2,7 +2,11 @@ import Weapon from './weapon.js';
 
 class Knife extends Weapon {
   constructor() {
-    super('Нож', 5, 300, 1);
+    super(); // range = 1
+    this.name = 'Нож';
+    this.attack = 5;
+    this.durability = 300;
+	this.startDurab = this.durability;
   }
 }
 

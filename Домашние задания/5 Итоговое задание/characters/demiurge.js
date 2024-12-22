@@ -6,7 +6,7 @@ class Demiurge extends Mage {
   constructor(position, name) {
     super(position, name);
     this.description = "Демиург";
-    this.weapon = new StormStaff(); // основное оружие - посох бури
+    this.weapon = new StormStaff(); 
     this.life = 80;
     this.magic = 120;
     this.attack = 6;
@@ -22,17 +22,6 @@ class Demiurge extends Mage {
       return super.getDamage(distance);
     }
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof StormStaff) { 
-       console.log(`${this.name} ломает свой Посох Бури и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
 
 export default Demiurge;

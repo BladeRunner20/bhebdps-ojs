@@ -23,17 +23,6 @@ class Archer extends Player {
     }
     return (this.attack + weaponDamage) * this.getLuck() * distance / weaponRange;
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Bow) {
-       console.log(`${this.name} ломает свой лук и будет биться ножом`);
-       this.weapon = new Knife();
-     } else {
-       super.checkWeapon();
-     }
-   }
 }
 
 export default Archer;

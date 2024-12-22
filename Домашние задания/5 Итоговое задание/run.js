@@ -1,10 +1,10 @@
 class Weapon {
-  constructor(name, attack, durability, range) {
-    this.name = name;
-    this.attack = attack;
-    this.durability = durability;
-    this.range = range;
-	this.startDurab = this.durability;
+  constructor() {
+    this.name = 'Оружие';
+    this.attack = 1;
+    this.durability = 1;
+    this.range = 1;
+	  this.startDurab = this.durability;
   }
   
   takeDamage(damage) {
@@ -35,35 +35,56 @@ class Weapon {
 
 class Arm extends Weapon {
   constructor() {
-    super('Рука', 1, Infinity, 1);
+    super(); //attack = 1, range = 1
+    this.name = 'Рука';
+    this.durability = Infinity;
+	  this.startDurab = this.durability;
   }
 }
 
 
 class Bow extends Weapon {
   constructor() {
-    super('Лук', 10, 200, 3);
+    super();
+    this.name = 'Лук';
+    this.attack = 10;
+    this.durability = 200;
+    this.range = 3;
+	  this.startDurab = this.durability;
   }
 }
 
 
 class Sword extends Weapon {
   constructor() {
-    super('Меч', 25, 500, 1);
+    super();
+    this.name = 'Меч';
+    this.attack = 25;
+    this.durability = 500;
+	  this.startDurab = this.durability;
   }
 }
 
 
 class Knife extends Weapon {
   constructor() {
-    super('Нож', 5, 300, 1);
+    super(); // range = 1
+    this.name = 'Нож';
+    this.attack = 5;
+    this.durability = 300;
+	  this.startDurab = this.durability;
   }
 }
 
 
 class Staff extends Weapon {
   constructor() {
-    super('Посох', 8, 300, 2);
+    super();
+    this.name = 'Посох';
+    this.attack = 8;
+    this.durability = 300;
+    this.range = 2;
+	  this.startDurab = this.durability;
   }
 }
 
@@ -83,7 +104,8 @@ class Axe extends Sword {
     super();
     this.name = 'Секира';
     this.attack = 27;
-    this.durability = 800; // устанавливаем новую прочность
+    this.durability = 800;
+    this.startDurab = this.durability;
   }
 }
 
@@ -173,13 +195,16 @@ class Player {
   }
   
   checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-    if (this.weapon instanceof Arm) {
+    if (!this.weapon.isBroken()) {
       return; 
     } else if (this.weapon instanceof Knife) {
       console.log(`${this.name} сломал нож. Будет сражаться руками`);
       this.weapon = new Arm();
+      return;
+    }
+    else {
+      console.log(`${this.name} сломал основное оружие - ${this.weapon.name}. Теперь он достает нож`);
+      this.weapon = new Knife();
       return;
     }
   }
@@ -302,17 +327,6 @@ class Warrior extends Player {
       this.life = 0;
     }
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Sword) {
-       console.log(`${this.name} ломает свой меч и будет сражаться ножом`);
-       this.weapon = new Knife();
-     } else {
-       super.checkWeapon();
-     }
-   }
 }
 
 
@@ -337,17 +351,6 @@ class Archer extends Player {
     }
     return (this.attack + weaponDamage) * this.getLuck() * distance / weaponRange;
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Bow) {
-       console.log(`${this.name} ломает свой лук и будет биться ножом`);
-       this.weapon = new Knife();
-     } else {
-       super.checkWeapon();
-     }
-   }
 }
 
 
@@ -375,18 +378,6 @@ class Mage extends Player {
     }
     super.takeDamage(damage);
   }
-  
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Staff) { 
-       console.log(`${this.name} ломает свой посох и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
 
 class Dwarf extends Warrior {
@@ -400,25 +391,16 @@ class Dwarf extends Warrior {
     this.weapon = new Axe();
     this.startLife = this.life;
     this.startMagic = this.magic;
+    this.hitsTaken = 0;
   }
   
   takeDamage(damage) {
-    if (this.getLuck() > 0.5 && Math.floor(Math.random() * 6) == 0) {
+    this.hitsTaken += 1;
+    if ((this.hitsTaken % 6 === 0) && this.getLuck() > 0.5) {
       damage /= 2;
     }
     super.takeDamage(damage);
   }
-  
-  checkWeapon() { 
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof Axe) { 
-       console.log(`${this.name} теряет секиру и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
 
 
@@ -434,17 +416,6 @@ class Crossbowman extends Archer {
     this.baseLife = this.life;
     this.baseMagic = this.magic;
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof LongBow) { 
-       console.log(`${this.name} теряет арбалет и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
 
 
@@ -452,7 +423,7 @@ class Demiurge extends Mage {
   constructor(position, name) {
     super(position, name);
     this.description = "Демиург";
-    this.weapon = new StormStaff(); // основное оружие - посох бури
+    this.weapon = new StormStaff(); 
     this.life = 80;
     this.magic = 120;
     this.attack = 6;
@@ -468,17 +439,6 @@ class Demiurge extends Mage {
       return super.getDamage(distance);
     }
   }
-  
-  checkWeapon() {
-    if (!this.weapon.isBroken())
-      return;
-     if (this.weapon instanceof StormStaff) { 
-       console.log(`${this.name} ломает свой Посох Бури и берёт нож`);
-       this.weapon = new Knife();
-     } else { 
-       super.checkWeapon(); 
-     } 
-   }
 }
 
 function play(players) {
@@ -495,20 +455,7 @@ function play(players) {
 }
 
 
-let player = new Warrior(0, "Алёша Попович");
-let archer = new Archer(2, "Леголас");
 
-console.log(archer.life, archer.position); // 80 2
-player.tryAttack(archer);
-console.log(archer.life, archer.position); // 80 2 (Алёша Попович не достаёт)
-player.moveRight(1); // Алёша Попович подходит
-player.tryAttack(archer);
-console.log(archer.life, archer.position); // 60.98 2
-player.moveRight(1); // Алёша Попович подходит вплотную
-player.tryAttack(archer);
-console.log(archer.life, archer.position); // 32.86 3 (Алёша Попович бъёт с удвоенным уроном. Леголас отлетает на 1 позицию)
-
-console.log('\n');
 function play(players) {
 	
   let alivePlayersCount = 0;
